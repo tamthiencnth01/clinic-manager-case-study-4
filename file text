@@ -1,0 +1,8 @@
+mkdir                           Tùy chọn Lệnh và Tóm tắt Cú pháp
+Tùy chọn / Cú pháp	         Sự miêu tả
+mkdir directory_name	        Tạo một thư mục ở vị trí hiện tại
+mkdir {dir1,dir2,dir3,dir4}	Tạo nhiều thư mục ở vị trí hiện tại. Đừng không sử                                              dụng không gian bên trong {}
+mkdir –p directory/path/newdir	Tạo cấu trúc thư mục với các thư mục mẹ bị thiếu (nếu có)
+mkdir –m777 directory_name	Tạo một thư mục và đặt đầy đủ các quyền đọc, ghi,                             thực thi cho tất cả người dùng
+mkdir –v directory_name(s)	Tạo một thư mục ở vị trí hiện tại
+
