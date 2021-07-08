@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Bệnh Nhân</title>
+    <link rel="stylesheet" href="/resource/css/bootstrap.css">
+    <link rel="stylesheet" href="/resource/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/resource/css/sweetalert2.min.css">
+    <script type="text/javascript" src="/resource/js/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="/resource/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/resource/js/jquery.validate-1.19.3.min.js"></script>
+    <script type="text/javascript" src="/resource/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/resource/css/style.css">
+    <script type="text/javascript" src="/resource/js/app.js"></script>
+
+</head>
+<body>
+
+    <div class="container">
+        <h5>Xin Chào <span th:text="${user}"></span> Đến với trang nhập bệnh nhân</h5>
+        <div sec:authorize="isAuthenticated()">
+            <a th:href="@{/}">Home</a> | <a th:href="@{/logout}">Logout</a>
+        </div>
+        <div class="box-body">
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">
+                <i class="fa fa-plus-square"></i>
+            </button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <th:block th:replace="/patient/createForm :: frm-create"></th:block>
+            </div>
+
+            <textarea style="display:none" id="template">
+                <tr id="tr_{0}">
+                    <td>{0}</td>
+                    <td><a href="/patient?action=view&id={0}">{1}</a></td>
+                    <td>{2}</td>
+                    <td>{3}</td>
+                    <td>{4}</td>
+                    <td>{5}</td>
+                    <td>
+                        <a class="btn btn-outline-warning edit" data-id="{0}">
+                            <i class="fa fa-pencil-square-o fa-fw"></i>
+                            edit
+                        </a>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger delete" data-id="{0}">
+                            <i class="fa fa-trash-o"></i>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </textarea>
+            <input type="hidden" id="currentRow">
+            <table id="orderItems" class="table table-hover" border="1">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tên</th>
+                        <th>Số Điện Thoại</th>
+                        <th>CMND</th>
+                        <th>Ngày Sinh</th>
+                        <th>Nơi Ở</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <th:block th:replace="/patient/updateForm :: frm-update"></th:block>
+    <script type="text/javascript" src="/resource/js/custom-validation.js"></script>
+    <script>
+        let page ={
+            urls: {
+                getAllPatients: App.BASE_URL_PATIENT,
+                getAllWards: App.BASE_URL_WARD,
+                saveNew: App.BASE_URL_PATIENT,
+                getPatientById: App.BASE_URL_PATIENT + '/',
+                saveEdit: App.BASE_URL_PATIENT,
+                deletePatient: App.BASE_URL_PATIENT
+            }
+        }
+
+        let patient = new Patient();
+        //Xem Danh Sach
+        let template = jQuery.validator.format($.trim($("#template").val()));
+
+        let addRow = () => {
+            $("#orderItems tbody").prepend($(template(patient.id, patient.name, patient.phone, patient.cmnd, patient.dob, patient.ward.name)));
+        }
+
+        function getPatients(){
+            $.ajax({
+                type: "GET",
+                url: page.urls.getAllPatients
+            }).done((data) =>{
+                $.each(data, (i,item) =>{
+                    patient = item;
+                    addRow();
+
+                })
+            }).fail(function (){
+                App.showErrorAlert("Khong Load Duoc Trang!");
+            })
+        }
+
+        function getWards(){
+            $.ajax({
+                type: "GET",
+                url: page.urls.getAllWards
+            }).done((data) =>{
+                $('#frmCreateCustomer').find('select').empty();
+                $('#frmUpdateCustomer').find('select').empty();
+                $.each(data, (i, item) => {
+                    $('#frmCreateCustomer').find('select').append(`<option value="${item.id}">${item.name}</option>`);
+                    $('#frmUpdateCustomer').find('select').append(`<option value="${item.id}">${item.name}</option>`);
+                });
+            }).fail(function () {
+                App.showErrorAlert("An error occrured. Please try again later");
+            });
+        }
+
+        //Them
+        function createPatient(){
+            patient.name = $("#name").val();
+            patient.phone = $("#phone").val();
+            patient.cmnd = $("#cmnd").val();
+            patient.dob = $("#dob").val();
+            patient.ward =  { "id": $("#ward").val() };
+            delete patient.id;
+            console.log(patient);
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: page.urls.saveNew,
+                data: JSON.stringify(patient)
+            }).done((respone) =>{
+                patient = respone;
+                addRow();
+                $('#frmCreateCustomer')[0].reset();
+                $('#frmCreateCustomer').validate().resetForm();
+                App.showSuccessAlert("Đã thêm mới thành công!");
+                $('#close-modal').click();
+            }).fail(function (){
+                App.showErrorAlert("Lỗi Không Thêm Mới được rồi :))")
+            });
+
+        }
+
+
+        $("#btnCreatePatient").on("click", () =>{
+            $("#frmCreateCustomer").submit();
+        })
+
+        $('#createModal').on('hidden.bs.modal', function () {
+            $('#frmCreateCustomer')[0].reset();
+            $('#frmCreateCustomer').validate().resetForm();
+        });
+        //Edit
+        function showUpdateModal(){
+            $.ajax({
+                type: "GET",
+                url: page.urls.getPatientById + patient.id
+            }).done((respone) =>{
+                assignUpdateModal(respone);
+            }).fail(function (){
+                App.showErrorAlert("Có Lỗi ở mục hiện thông tin người cần thay đổi! ");
+            })
+        }
+
+        function assignUpdateModal(p){
+            $("#upName").val(p.name);
+            $("#upPhone").val(p.phone);
+            $("#upCMND").val(p.cmnd);
+            $("#upDob").val(p.dob);
+            $("#upWard").val(p.ward.id);
+            $("#updateModal").modal('toggle');
+        }
+
+        function updatePatient(){
+            patient.name = $("#upName").val();
+            patient.phone = $("#upPhone").val();
+            patient.cmnd = $("#upCMND").val();
+            patient.dob = $("#upDob").val();
+            patient.ward = {"id": $("#upWard").val() };
+
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: page.urls.saveEdit,
+                data: JSON.stringify(patient)
+            }).done((respone) => {
+                patient = respone;
+                let row = $("#orderItems tbody").find('#'+ $("#currentRow").val());
+                let update_row = $(template(patient.id, patient.name, patient.phone, patient.cmnd, patient.dob, patient.ward.name));
+                row.replaceWith (update_row);
+                $("#currentRow").val("");
+                $('#frmUpdateCustomer')[0].reset();
+                $('#frmUpdateCustomer').validate().resetForm();
+                App.showSuccessAlert("Thay Đổi Thông Tin Bệnh Nhân Thành Công");
+            }).fail( () => {
+                App.showErrorAlert("An error occurred. Please try again later !");
+            });
+            $("#updateModal").modal('hide');
+        }
+
+        $("#btnUpdateCustomer").on("click",() =>{
+           $("#frmUpdateCustomer").submit();
+        });
+
+        $("#orderItems").on("click", ".edit", function (){
+            patient.id = $(this).data('id');
+            $("#currentRow").val($(this).closest("tr").attr("id"));
+            showUpdateModal();
+        });
+
+        $('#updateModal').on('hidden.bs.modal', function () {
+            $('#frmUpdateCustomer')[0].reset();
+            $('#frmUpdateCustomer').validate().resetForm();
+        });
+        //Delete
+        $("#orderItems").on("click", ".delete", function (){
+            patient.id = $(this).data('id');
+            deleteConfirm();
+        });
+
+        function deleteConfirm(){
+            App.showDeleteConfirmDialog().then((result) => {
+                if (result.isConfirmed){
+                    $.ajax({
+                        type: "DELETE",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        url: page.urls.deletePatient,
+                        data: JSON.stringify({
+                            id: patient.id,
+                        }),
+                        success() {
+                            App.showSuccessAlert("Đã xoá bệnh nhân thành công!");
+                            $("#tr_" + patient.id).remove();
+                        },
+                        error(){
+                            App.showErrorAlert("Có Lỗi Không Xoá được bệnh nhân!")
+                        }
+                    })
+                }
+            })
+        }
+
+        $(() => {
+            getPatients();
+            getWards();
+        });
+    </script>
+</body>
+
+</html>
