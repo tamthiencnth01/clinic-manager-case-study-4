@@ -30,7 +30,7 @@ public class SecurityController {
     @GetMapping("/admin")
     public String adminPage(ModelMap modelMap) {
         modelMap.addAttribute("user",getPrincipal());
-        return "/patient/list";
+        return "/account/admin";
     }
     @GetMapping("/accessDenied")
     public String accessDeniedPage(ModelMap modelMap){

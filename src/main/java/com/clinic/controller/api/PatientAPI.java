@@ -5,9 +5,12 @@ import com.clinic.model.Ward;
 import com.clinic.service.patient.IPatientService;
 import com.clinic.service.ward.IWardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +33,14 @@ public class PatientAPI {
         }
         return new ResponseEntity<>(patients,HttpStatus.OK);
     }
+
+//    @GetMapping
+//    public ModelAndView listCustomers(Pageable pageable){
+//        Page<Patient> customers = patientService.findAllPatients(pageable);
+//        ModelAndView modelAndView = new ModelAndView("/patient/list");
+//        modelAndView.addObject("patients", customers);
+//        return modelAndView;
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id){

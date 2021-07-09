@@ -3,6 +3,8 @@ package com.clinic.service.patient;
 import com.clinic.model.Patient;
 import com.clinic.repository.IPatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,5 +30,11 @@ public class PatientService implements IPatientService{
     @Override
     public void remove(Long id) {
         patientRepository.deleteById(id);
+    }
+
+
+    @Override
+    public Page<Patient> findAllPatients(Pageable pageable) {
+        return patientRepository.findAll(pageable);
     }
 }

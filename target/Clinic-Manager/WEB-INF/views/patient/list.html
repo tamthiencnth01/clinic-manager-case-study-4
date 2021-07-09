@@ -75,6 +75,11 @@
             </table>
         </div>
     </div>
+<!--    <div>-->
+<!--        <a th:href="@{'/patient'(page=${patients.number - 1})}" th:if="${patients.hasPrevious()}">Previous</a>-->
+<!--        <span th:text="${patients.number + 1}"></span>/<span th:text="${patients.totalPages}"></span>-->
+<!--        <a th:href="@{'/patient'(page=${patients.number + 1})}" th:if="${patients.hasNext()}">Next</a>-->
+<!--    </div>-->
     <th:block th:replace="/patient/updateForm :: frm-update"></th:block>
     <script type="text/javascript" src="/resource/js/custom-validation.js"></script>
     <script>
