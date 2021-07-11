@@ -4,258 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản Lý Bệnh Nhân</title>
+
+    <!-- App css -->
+    <link href="/resource/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet">
+    <link href="/resource/assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="/resource/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
     <link rel="stylesheet" href="/resource/css/bootstrap.css">
-    <link rel="stylesheet" href="/resource/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/resource/css/style.css">
+    <link href="/resource/fontawesome/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="/resource/css/sweetalert2.min.css">
 
-    <link rel="shortcut icon" href="/assetss/images/favicon.ico">
-    <!-- App css -->
-    <link href="/assetss/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet">
-    <link href="/assetss/css/icons.min.css" rel="stylesheet" type="text/css">
-    <link href="/assetss/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
 
-    <script type="text/javascript" src="/resource/js/sweetalert2.min.js"></script>
+
     <script type="text/javascript" src="/resource/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="/resource/js/jquery.validate-1.19.3.min.js"></script>
+    <script type="text/javascript" src="/resource/js/custom-validation.js"></script>
+    <script type="text/javascript" src="/resource/js/app.js"></script>
     <script type="text/javascript" src="/resource/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/resource/js/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/resource/css/style.css">
-    <script type="text/javascript" src="/resource/js/app.js"></script>
+
+
+
+
 
 </head>
 <body>
 
-    <div class="container">
-<!--        <h1> Dear <span style="color: red;" th:text="${user}"></span> Welcome to DBA Page</h1>-->
-<!--        <div sec:authorize="isAuthenticated()">-->
-<!--            <a th:href="@{/home}">Home</a> | <a th:href="@{patient}">Quan Ly Benh Nhan</a> | <a th:href="@{/logout}">Logout</a>-->
-<!--        </div>-->
-<!--        <div class="box-body">-->
-<!--            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">-->
-<!--                <i class="fa fa-plus-square"></i>-->
-<!--            </button>-->
-
-<!--            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--                <th:block th:replace="/patient/createForm :: frm-create"></th:block>-->
-<!--            </div>-->
-
-<!--            <textarea style="display:none" id="template">-->
-<!--                <tr id="tr_{0}">-->
-<!--                    <td>{0}</td>-->
-<!--                    <td><a href="/patient?action=view&id={0}">{1}</a></td>-->
-<!--                    <td>{2}</td>-->
-<!--                    <td>{3}</td>-->
-<!--                    <td>{4}</td>-->
-<!--                    <td>{5}</td>-->
-<!--                    <td>-->
-<!--                        <a class="btn btn-outline-warning edit" data-id="{0}">-->
-<!--                            <i class="fa fa-pencil-square-o fa-fw"></i>-->
-<!--                            edit-->
-<!--                        </a>-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                        <button type="button" class="btn btn-outline-danger delete" data-id="{0}">-->
-<!--                            <i class="fa fa-trash-o"></i>-->
-<!--                            Delete-->
-<!--                        </button>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--            </textarea>-->
-<!--            <input type="hidden" id="currentRow">-->
-<!--            <table id="orderItems" class="table table-hover" border="1">-->
-<!--                <thead>-->
-<!--                    <tr>-->
-<!--                        <th>#</th>-->
-<!--                        <th>Tên</th>-->
-<!--                        <th>Số Điện Thoại</th>-->
-<!--                        <th>CMND</th>-->
-<!--                        <th>Ngày Sinh</th>-->
-<!--                        <th>Nơi Ở</th>-->
-<!--                        <th></th>-->
-<!--                        <th></th>-->
-<!--                    </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-
-<!--                </tbody>-->
-<!--            </table>-->
-<!--        </div>-->
-    </div>
-    <th:block th:replace="/patient/updateForm :: frm-update"></th:block>
-
-    <div id="wrapper">
-
-
+        <div id="wrapper">
         <!-- Topbar Start -->
         <div class="navbar-custom">
             <ul class="list-unstyled topnav-menu float-right mb-0">
-
-                <li class="dropdown d-none d-lg-block">
-                    <a class="nav-link dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="assets\images\flags\us.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">English <i class="mdi mdi-chevron-down"></i> </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="assets\images\flags\spain.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Spanish</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="assets\images\flags\italy.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Italian</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="assets\images\flags\french.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">French</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="assets\images\flags\russia.jpg" alt="user-image" class="mr-2" height="12"> <span class="align-middle">Russian</span>
-                        </a>
-                    </div>
-                </li>
-
-                <li class="dropdown notification-list">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <i class="mdi mdi-bell noti-icon"></i>
-                        <span class="badge badge-danger rounded-circle noti-icon-badge">4</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-
-                        <!-- item-->
-                        <div class="dropdown-item noti-title">
-                            <h5 class="font-16 m-0">
-                                    <span class="float-right">
-                                        <a href="" class="text-dark">
-                                            <small>Clear All</small>
-                                        </a>
-                                    </span>Notification
-                            </h5>
-                        </div>
-
-                        <div class="slimscroll noti-scroll">
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-success"><i class="mdi mdi-comment-account-outline"></i></div>
-                                <p class="notify-details">Caleb Flakelar commented on Admin<small class="text-muted">1 min ago</small></p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-info"><i class="mdi mdi-account-plus"></i></div>
-                                <p class="notify-details">New user registered.<small class="text-muted">5 hours ago</small></p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-danger"><i class="mdi mdi-heart"></i></div>
-                                <p class="notify-details">Carlos Crouch liked <b>Admin</b><small class="text-muted">3 days ago</small></p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-warning"><i class="mdi mdi-comment-account-outline"></i></div>
-                                <p class="notify-details">Caleb Flakelar commented on Admin<small class="text-muted">4 days ago</small></p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-primary">
-                                    <i class="mdi mdi-heart"></i>
-                                </div>
-                                <p class="notify-details">Carlos Crouch liked <b>Admin</b>
-                                    <small class="text-muted">13 days ago</small>
-                                </p>
-                            </a>
-                        </div>
-
-                        <!-- All-->
-                        <a href="javascript:void(0);" class="dropdown-item text-primary text-center notify-item notify-all ">
-                            View all
-                            <i class="fi-arrow-right"></i>
-                        </a>
-
-                    </div>
-                </li>
-
-                <li class="dropdown notification-list">
-                    <a class="nav-link dropdown-toggle nav-user mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="assets\images\users\avatar-1.jpg" alt="user-image" class="rounded-circle">
-                        <span class="pro-user-name ml-1">
-                                    Maxine K  <i class="mdi mdi-chevron-down"></i>
-                            </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                        <!-- item-->
-                        <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome !</h6>
-                        </div>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-account-outline"></i>
-                            <span>Profile</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-settings-outline"></i>
-                            <span>Settings</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-lock-outline"></i>
-                            <span>Lock Screen</span>
-                        </a>
-
-                        <div class="dropdown-divider"></div>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-logout-variant"></i>
-                            <span>Logout</span>
-                        </a>
-
-                    </div>
-                </li>
-
-                <li class="dropdown notification-list">
-                    <a href="javascript:void(0);" class="nav-link right-bar-toggle">
-                        <i class="mdi mdi-settings-outline noti-icon"></i>
-                    </a>
-                </li>
 
 
             </ul>
 
             <!-- LOGO -->
             <div class="logo-box">
-                <a href="index.html" class="logo text-center logo-dark">
-                        <span class="logo-lg">
-                            <img src="assets\images\logo-dark.png" alt="" height="26">
-                            <!-- <span class="logo-lg-text-dark">Simple</span> -->
-                        </span>
-                    <span class="logo-sm">
-                            <!-- <span class="logo-lg-text-dark">S</span> -->
-                            <img src="assets\images\logo-sm.png" alt="" height="22">
-                        </span>
-                </a>
-
-                <a href="index.html" class="logo text-center logo-light">
-                        <span class="logo-lg">
-                            <img src="assets\images\logo-light.png" alt="" height="26">
-                            <!-- <span class="logo-lg-text-light">Simple</span> -->
-                        </span>
-                    <span class="logo-sm">
-                            <!-- <span class="logo-lg-text-light">S</span> -->
-                            <img src="assets\images\logo-sm.png" alt="" height="22">
-                        </span>
-                </a>
             </div>
 
             <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
@@ -272,7 +58,7 @@
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <div class="input-group-append">
                                     <button class="btn" type="submit">
-                                        <i class="fas fa-search"></i>
+                                        <i class="fa fa-search"></i>
                                     </button>
                                 </div>
                             </div>
@@ -303,31 +89,30 @@
                     <li class="menu-title">Navigation</li>
 
                     <li>
-                        <a href="index.html">
-                            <i class="ti-home"></i>
+                        <a th:href="@{home}">
+                            <i class="fas fa-user-injured"></i>
                             <span> Quản Lý Bệnh Nhân </span>
                         </a>
                     </li>
 
                     <li>
                         <a href="ui-elements.html">
-                            <i class="ti-paint-bucket"></i>
+                            <i class="fas fa-hospital-user"></i>
                             <span> Quản Lý Nhân Viên </span>
                             <span class="badge badge-primary float-right">11</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="javascript: void(0);">
-                            <i class="ti-light-bulb"></i>
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fas fa-syringe"></i>
                             <span> Kho Dược </span>
-                            <span class="menu-arrow"></span>
+                            <i class="fas fa-arrow-down"></i>
                         </a>
-                        <ul class="nav-second-level" aria-expanded="false">
+                        <ul class="dropdown-menu" aria-expanded="false">
                             <li><a href="components-range-slider.html">Thuốc Tây</a></li>
                             <li><a href="components-alerts.html">Thuốc Đông Y</a></li>
                             <li><a href="components-icons.html">Vật Tư Y Tế</a></li>
-<!--                            <li><a href="components-widgets.html">Widgets</a></li>-->
                         </ul>
                     </li>
 
@@ -385,14 +170,17 @@
                     <td>{5}</td>
                     <td>
                         <a class="btn btn-outline-warning edit" data-id="{0}">
-                            <i class="fa fa-pencil-square-o fa-fw"></i>
-                            edit
+                            <i class="fas fa-edit"></i>
                         </a>
                     </td>
                     <td>
                         <button type="button" class="btn btn-outline-danger delete" data-id="{0}">
                             <i class="fa fa-trash"></i>
-                            Delete
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger delete" data-id="{0}">
+                            <i class="far fa-address-book"></i>
                         </button>
                     </td>
                 </tr>
@@ -407,8 +195,9 @@
                                         <th>CMND</th>
                                         <th>Ngày Sinh</th>
                                         <th>Nơi Ở</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Cập Nhật</th>
+                                        <th>Xoá</th>
+                                        <th>Tạo Bệnh Án</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -419,7 +208,7 @@
                         </div>
                     </div>
                     <!-- end row -->
-
+                    <th:block th:replace="/patient/updateForm :: frm-update"></th:block>
                 </div>
                 <!-- end container-fluid -->
 
@@ -444,8 +233,8 @@
         <!-- END content-page -->
 
     </div>
+<!--    </div>-->
 
-    <script type="text/javascript" src="/resource/js/custom-validation.js"></script>
     <script>
         let page ={
             urls: {
@@ -638,13 +427,10 @@
         });
     </script>
 </body>
-    <script src="/assetss/js/vendor.min.js"></script>
-
-    <script src="/assetss/libs/morris-js/morris.min.js"></script>
-    <script src="/assetss/libs/raphael/raphael.min.js"></script>
-    
-    <script src="/assetss/js/pages/dashboard.init.js"></script>
-
-    <!-- App js -->
-    <script src="/assetss/js/app.min.js"></script>
+<!--<script src="/resource/js/vendor.min.js"></script>-->
+<script src="/resource/libs/morris-js/morris.min.js"></script>
+<script src="/resource/libs/raphael/raphael.min.js"></script>
+<script src="/resource/js/pages/dashboard.init.js"></script>
+<!-- App js -->
+<script src="/resource/js/app.min.js"></script>
 </html>

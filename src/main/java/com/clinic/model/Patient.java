@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -15,17 +16,20 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull
     private String name;
+    @NotNull
     private String phone;
+    @NotNull
     private String cmnd;
+    @NotNull
     private String dob;
 
     @ManyToOne
     @JoinColumn(name = "ward_id")
     private Ward ward;
 
-    public Patient(String name, String phone, String cmnd, String dob, Ward ward) {
+    public Patient(@NotNull String name, @NotNull String phone, @NotNull String cmnd, @NotNull String dob, Ward ward) {
         this.name = name;
         this.phone = phone;
         this.cmnd = cmnd;
