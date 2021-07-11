@@ -6,41 +6,63 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-//@Controller
+@Controller
 public class SecurityController {
-    private String getPrincipal(){
+
+    private String getPrincipal() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (principal instanceof UserDetails){
+        if (principal instanceof UserDetails) {
             userName = ((UserDetails) principal).getUsername();
-        }else {
+        } else {
             userName = principal.toString();
         }
         return userName;
     }
 
-    @GetMapping(value = {"/", "/home"})
-    public String Homepage(Model model){
-        model.addAttribute("user",getPrincipal());
+//    @GetMapping(value = {"/", "/home"})
+//    public String Homepage(Model model) {
+//        model.addAttribute("user", getPrincipal());
+//        return "/patient/list";
+//    }
+    @GetMapping( "/home")
+    public String Patient(Model model) {
+        model.addAttribute("user", getPrincipal());
         return "/patient/list";
     }
 
-    @GetMapping("/admin")
-    public String adminPage(ModelMap modelMap) {
-        modelMap.addAttribute("user",getPrincipal());
-        return "/account/admin";
-    }
-    @GetMapping("/accessDenied")
-    public String accessDeniedPage(ModelMap modelMap){
-        modelMap.addAttribute("user",getPrincipal());
-        return "/account/accessDenied";
+    @GetMapping(value = {"/", "/login"})
+    public ModelAndView getLogin() {
+        return new ModelAndView("/pages/login");
     }
 
-    @GetMapping("/dba")
-    public String dbaPage(ModelMap modelMap){
-        modelMap.addAttribute("user",getPrincipal());
-        return "/account/dba";
+
+    @GetMapping("/admin")
+    public String adminPage(ModelMap modelMap) {
+        modelMap.addAttribute("user", getPrincipal());
+        return "/pages/admin";
     }
+
+    @GetMapping( "/dba")
+    public String dbaPage(ModelMap model) {
+        model.addAttribute("user", getPrincipal());
+        return "/patient/list";
+    }
+
+    @GetMapping("/accessDenied")
+    public String accessDeniedPage(ModelMap model) {
+        model.addAttribute("user", getPrincipal());
+        return "/pages/403";
+    }
+
+    @GetMapping("/notFound")
+    public String notFound(ModelMap model) {
+        model.addAttribute("user", getPrincipal());
+        return "/pages/404";
+    }
+
 }
+

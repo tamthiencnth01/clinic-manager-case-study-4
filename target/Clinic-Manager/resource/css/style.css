@@ -1,6 +1,7 @@
 body {
     margin: 0 auto;
     padding: 25px;
+
 }
 
 a {
@@ -32,4 +33,5 @@ label.error{
 
 form {
     margin-block-end: 1em;
+    max-width: 50%;
 }

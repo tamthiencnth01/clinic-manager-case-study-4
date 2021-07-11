@@ -63,7 +63,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-//        templateEngine.addDialect(new SpringSecurityDialect());
+        templateEngine.addDialect(new SpringSecurityDialect());
         return templateEngine;
     }
 
@@ -123,6 +123,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resource/**").addResourceLocations("/resource/");
+        registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
     }
 
 }

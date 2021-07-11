@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" />
+    <link rel="stylesheet" href="/resource/css/bootstrap.css">
+    <link rel="stylesheet" href="https://www.markuptag.com/bootstrap/5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/resource/css/style.css">
+    <style>
+        body, html {
+            height: 100%;
+        }
+
+        .bg {
+            /* The image used */
+            background-image: url("/resource/blur-hospital.jpg");
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg">
+    <div class="container">
+<!--            <form class="form-signin" method="post" action="/login">-->
+<!--            <fieldset class="row g-2">-->
+<!--                <h2 class="form-signin-heading">Please sign in Control Panel</h2>-->
+<!--                <div class="form-group">-->
+<!--                    <div class="col-md-6" th:if="${param.error}">-->
+<!--                        <div class="alert alert-danger" role="alert">-->
+<!--                            <p style="margin-bottom: 0;">You entered wrong credentials!</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group mb-2">-->
+<!--                    <div class="col-md-6">-->
+<!--                        <label for="username" class="form-label">Username</label>-->
+<!--                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group mb-3">-->
+<!--                    <div class="col-md-6">-->
+<!--                        <label for="password" class="form-label">Password</label>-->
+<!--                        <input type="text" class="form-control" id="password" name="password" placeholder="Password" required>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <div class="col-md-12">-->
+<!--                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
+
+        <!-- Click on Modal Button -->
+        <button type="button" class="btn btn-primary mx-auto d-block mt-5" data-bs-toggle="modal" data-bs-target="#modalForm">
+            WELCOME TO CLINIC MANAGER
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thông Tin Đăng Nhập</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-signin" method="post" action="/login">
+                            <div class="mb-3">
+                                <label class="form-label">Tên Tài Khoản</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mật Khẩu</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                            </div>
+                            <div class="modal-footer d-block">
+                                <button type="submit" class="btn btn-warning float-end">Xác Nhận</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://www.markuptag.com/bootstrap/5/js/bootstrap.bundle.min.js"></script>
+</html>
