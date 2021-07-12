@@ -123,6 +123,12 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resource/**").addResourceLocations("/resource/");
+        registry
+                .addResourceHandler("/swagger-ui.html**")
+                .addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
+        registry
+                .addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }

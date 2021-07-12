@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -16,7 +18,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @Column
     private String name;
     @NotNull
     private String phone;
@@ -28,6 +30,9 @@ public class Patient {
     @ManyToOne
     @JoinColumn(name = "ward_id")
     private Ward ward;
+
+    @OneToMany(targetEntity = MedicalBill.class, fetch = FetchType.EAGER)
+    private Set<MedicalBill> listPatient;
 
     public Patient(@NotNull String name, @NotNull String phone, @NotNull String cmnd, @NotNull String dob, Ward ward) {
         this.name = name;

@@ -20,6 +20,11 @@ public class MedicalBill {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+    private String dateOnExamination;
     private String symptom;
 
     public MedicalBill(Doctor doctor, String symptom) {

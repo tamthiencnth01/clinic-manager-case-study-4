@@ -62,7 +62,6 @@
             getAllDepartments: App.BASE_URL_DEPARTMENT
         }
     }
-
     let doctor = new Doctor();
     let template = jQuery.validator.format($.trim($("#template").val()));
     let addRow = () => {
@@ -96,5 +95,9 @@
             App.showErrorAlert("Khong Load Duoc Trang!");
         })
     }
+    $(() => {
+        getDoctors();
+        getDepartments();
+    });
 </script>
 </html>

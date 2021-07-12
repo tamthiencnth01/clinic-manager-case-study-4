@@ -161,30 +161,30 @@
                                 </div>
 
                                 <textarea style="display:none" id="template">
-                <tr id="tr_{0}">
-                    <td>{0}</td>
-                    <td><a href="/patient?action=view&id={0}">{1}</a></td>
-                    <td>{2}</td>
-                    <td>{3}</td>
-                    <td>{4}</td>
-                    <td>{5}</td>
-                    <td>
-                        <a class="btn btn-outline-warning edit" data-id="{0}">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-outline-danger delete" data-id="{0}">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-outline-danger delete" data-id="{0}">
-                            <i class="far fa-address-book"></i>
-                        </button>
-                    </td>
-                </tr>
-            </textarea>
+                                    <tr id="tr_{0}">
+                                        <td>{0}</td>
+                                        <td><a href="/patient?action=view&id={0}">{1}</a></td>
+                                        <td>{2}</td>
+                                        <td>{3}</td>
+                                        <td>{4}</td>
+                                        <td>{5}</td>
+                                        <td>
+                                            <a class="btn btn-outline-warning edit" data-id="{0}">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-danger delete" data-id="{0}">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-success createPatient" data-id="{0}">
+                                                <i class="far fa-address-book"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </textarea>
                                 <input type="hidden" id="currentRow">
                                 <table id="orderItems" class="table table-hover" border="1">
                                     <thead>
@@ -209,6 +209,7 @@
                     </div>
                     <!-- end row -->
                     <th:block th:replace="/patient/updateForm :: frm-update"></th:block>
+                    <th:block th:replace="/patient/createPatient :: form-create-patient"></th:block>
                 </div>
                 <!-- end container-fluid -->
 
@@ -219,7 +220,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">
-                                2017 - 2020 &copy; Simple theme by <a href="">Coderthemes</a>
+                                2021 &copy; Simple theme by <a href="">Cụt Một Ngón Group</a>
                             </div>
                         </div>
                     </div>
@@ -240,6 +241,7 @@
             urls: {
                 getAllPatients: App.BASE_URL_PATIENT,
                 getAllWards: App.BASE_URL_WARD,
+                getDoctors: App.BASE_URL_DOCTOR,
                 saveNew: App.BASE_URL_PATIENT,
                 getPatientById: App.BASE_URL_PATIENT + '/',
                 saveEdit: App.BASE_URL_PATIENT,
@@ -270,6 +272,20 @@
             })
         }
 
+        function getDoctors(){
+            $.ajax({
+                type: "GET",
+                url: page.urls.getDoctors
+            }).done((data) =>{
+                $('#formCreatePatient').find('select').empty();
+                $.each(data, (i, item) =>{
+                    $('#formCreatePatient').find('select').append(`<option value="${item.id}">${item.name}</option>`);
+                })
+            }).fail(function(){
+                App.showErrorAlert("Không hiển thị được thông tin bác sỹ lên trang!")
+            })
+        }
+
         function getWards(){
             $.ajax({
                 type: "GET",
@@ -282,7 +298,7 @@
                     $('#frmUpdateCustomer').find('select').append(`<option value="${item.id}">${item.name}</option>`);
                 });
             }).fail(function () {
-                App.showErrorAlert("An error occrured. Please try again later");
+                App.showErrorAlert("Không hiển thị được thông tin phường xã lên trang!");
             });
         }
 
@@ -420,10 +436,40 @@
                 }
             })
         }
+        //create Patient
+        function showCreatePatient(){
+            $.ajax({
+                type: "GET",
+                url: page.urls.getPatientById + patient.id
+            }).done((respone) =>{
+                console.log("da hien thi 1");
+                assignCreatePatient(respone);
+            }).fail(function (){
+                App.showErrorAlert("Có Lỗi ở mục hiển thị thông tin bệnh án");
+            })
+        }
 
+        function assignCreatePatient(p){
+            $("#namePatientCreate").val(p.name);
+            console.log("da hien thi 2");
+            $("#createModalPatient").modal('toggle');
+        }
+
+        $("#orderItems").on("click",".createPatient", function (){
+           patient.id = $(this).data('id');
+           $("#currentRow").val($(this).closest("tr").attr("id"));
+            console.log("da click");
+           showCreatePatient();
+        });
+
+        $('#createModalPatient').on('hidden.bs.modal', function () {
+            $('#frmCreatePatient')[0].reset();
+            $('#frmCreatePatient').validate().resetForm();
+        });
         $(() => {
             getPatients();
             getWards();
+            getDoctors();
         });
     </script>
 </body>

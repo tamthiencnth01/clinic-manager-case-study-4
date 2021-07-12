@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form-create-patient">
+    <div id="createModalPatient" class="modal fade" data-bs-backdrop="true" data-bs-keyboard="true" tabindex="-1">
+        <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thay Đổi Thông Tin Bệnh Nhân</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Vui lòng nhập chi tiết thông tin về bệnh nhân (Mọi quản lý sẽ từ CMND) </p>
+                    <form id="frmUpdateCustomer" >
+                        <div class="form-group">
+                            <label for="namePatientCreate" class="form-label">Họ Và Tên bệnh nhân</label>
+                            <input type="text" class="form-control" id="namePatientCreate" name="namePatientCreate">
+                        </div>
+                        <div class="form-group">
+                            <label for="nameDoctor" class="form-label">Tên Bác Sỹ</label>
+                            <input type="text" class="form-control" id="nameDoctor" name="nameDoctor">
+                        </div>
+                        <div class="form-group">
+                            <label for="symptom" class="form-label">Triệu Chứng</label>
+                            <input type="number" class="form-control" id="symptom" name="symptom">
+                        </div>
+                        <div class="form-group">
+                            <label for="upDob" class="form-label">Ngày Sinh</label>
+                            <input type="date" class="form-control" id="upDob" name="upDob">
+                        </div>
+                        <div class="form-group">
+                            <label for="upWard" class="form-label">Phường</label>
+                            <select id="upWard" class="form-select"></select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnUpdateCustomer" class="btn btn-outline-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
