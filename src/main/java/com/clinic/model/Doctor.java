@@ -31,8 +31,6 @@ public class Doctor {
     @JoinColumn(name = "department_id")
     private Department department;
 
-
-
     public Doctor(String name,String address, Department department) {
         this.name = name;
         this.address = address;

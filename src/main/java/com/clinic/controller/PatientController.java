@@ -18,9 +18,7 @@ public class PatientController {
 
     @GetMapping
     public ModelAndView showAllPatients(){
-//        Page<Patient> patients = patientService.findAllPatients(pageable);
         ModelAndView modelAndView = new ModelAndView("/patient/list");
-//        modelAndView.addObject("patients",patients);
         return modelAndView;
     }
 

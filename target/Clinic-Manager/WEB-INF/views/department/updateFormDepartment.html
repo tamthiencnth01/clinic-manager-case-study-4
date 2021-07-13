@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <a th:href="@{departments}">Danh Sach Phong Ban</a>
+    <h4>Thay Doi Phong Ban</h4>
+    <form th:action="@{edit-department}" th:object="${department}" method="post">
+        <input th:type="hidden" name="id" th:field="*{id}"/>
+        <table border="1">
+            <tr>
+                <td>Ten Phong Ban</td>
+                <td><input type="text" th:field="*{name}"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Update Department"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

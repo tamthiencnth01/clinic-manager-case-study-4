@@ -18,13 +18,17 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
+    @Column(nullable = false)
     private String name;
-    @NotNull
+
+    @Column(nullable = false)
     private String phone;
-    @NotNull
+
+    @Column(nullable = false, unique = true)
     private String cmnd;
-    @NotNull
+
+    @Column(nullable = false)
     private String dob;
 
     @ManyToOne
@@ -33,14 +37,6 @@ public class Patient {
 
     @OneToMany(targetEntity = MedicalBill.class, fetch = FetchType.EAGER)
     private Set<MedicalBill> listPatient;
-
-    public Patient(@NotNull String name, @NotNull String phone, @NotNull String cmnd, @NotNull String dob, Ward ward) {
-        this.name = name;
-        this.phone = phone;
-        this.cmnd = cmnd;
-        this.dob = dob;
-        this.ward = ward;
-    }
 
     @Override
     public String toString() {

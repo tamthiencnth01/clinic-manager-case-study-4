@@ -27,6 +27,13 @@ public class MedicalBill {
     private String dateOnExamination;
     private String symptom;
 
+    public MedicalBill(Doctor doctor, Patient patient, String dateOnExamination, String symptom) {
+        this.doctor = doctor;
+        this.patient = patient;
+        this.dateOnExamination = dateOnExamination;
+        this.symptom = symptom;
+    }
+
     public MedicalBill(Doctor doctor, String symptom) {
         this.doctor = doctor;
         this.symptom = symptom;

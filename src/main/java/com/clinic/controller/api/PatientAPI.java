@@ -25,26 +25,40 @@ public class PatientAPI {
     @Autowired
     private IWardService wardService;
 
+//    @GetMapping
+//    public ResponseEntity<Iterable<Patient>> getAllPatients(){
+//        Iterable<Patient> patients = patientService.findAll();
+//        if (((List) patients).isEmpty()){
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(patients,HttpStatus.OK);
+//    }
+
     @GetMapping
     public ResponseEntity<Iterable<Patient>> getAllPatients(){
-        Iterable<Patient> patients = patientService.findAll();
+//        Iterable<Patient> patients = patientService.findAll();
+        Page<Patient> patients = (Page<Patient>) patientService.findAll();
+        Iterable<Patient> listPatients = patients.getContent();
         if (((List) patients).isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(patients,HttpStatus.OK);
+        return new ResponseEntity<>(listPatients,HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ModelAndView listCustomers(Pageable pageable){
-//        Page<Patient> customers = patientService.findAllPatients(pageable);
-//        ModelAndView modelAndView = new ModelAndView("/patient/list");
-//        modelAndView.addObject("patients", customers);
-//        return modelAndView;
-//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id){
         Optional<Patient> patient = patientService.findById(id);
+        if (patient.isPresent()){
+            return new ResponseEntity<>(patient.get(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/search/{cmnd}")
+    public ResponseEntity<Patient> getPatientByCmnd(@PathVariable String cmnd){
+        Optional<Patient> patient = patientService.findByCmnd(cmnd);
         if (patient.isPresent()){
             return new ResponseEntity<>(patient.get(), HttpStatus.OK);
         }else{

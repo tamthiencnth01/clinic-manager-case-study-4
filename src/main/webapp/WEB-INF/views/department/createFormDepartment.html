@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Khởi Tạo Phòng Ban</title>
+</head>
+<body>
+<a th:href="@{/departments}">Trang Danh Sách Phòng ban</a>
+<form th:action="@{/create-department}" th:object="${department}" method="post">
+    <table border="1">
+        <tr>
+            <td>Tên Phòng Ban</td>
+            <td><input type="text" th:field="*{name}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Create Department"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
