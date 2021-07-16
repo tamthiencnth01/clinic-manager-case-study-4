@@ -514,7 +514,6 @@
             medicalBill.patient = {"id": $("#idPatientCreate").val()} ;
             medicalBill.symptom = symptoms.toString();
             delete medicalBill.id;
-            console.log(medicalBill);
             $.ajax({
                 type: "POST",
                 headers: {
@@ -524,11 +523,9 @@
                 url: page.urls.saveNewMedicalBill,
                 data: JSON.stringify(medicalBill)
             }).done((respone)   =>{
-                console.log(respone);
                 medicalBill = respone;
-                // addRow();
-                // $('#formCreatePatient')[0].reset();
-                // $('#formCreatePatient').validate().resetForm();
+                $('#formCreatePatient')[0].reset();
+                $('#formCreatePatient').validate().resetForm();
                 App.showSuccessAlert("Đã thêm mới thành công!");
                 $('#close-modal-createMedicalBill').click();
             }).fail(function (){
@@ -575,10 +572,26 @@
         });
 
         //show History Medical Bill
+        function showHistoryModal(){
+            $.ajax({
+                type: "GET",
+                url: page.urls.showListHistoryMedicalBill + medicalBill.id
+            }).done((respone) => {
+                assignHistoryMedicalBill(respone);
+            }).fail(function (){
+                App.showErrorAlert("Không Hiển Thị Lịch Sử Khám Bệnh!");
+            })
+        }
+
+        function assignHistoryMedicalBill(p){
+            $("#doctorName").val(p.doctor.name);
+            $("#patientName").val(p.patient.name);
+        }
+
         $("#orderItems").on("click", ".showListHistory", function (){
             patient.id = $(this).data('id');
             $("#currentRow").val($(this).closest("tr").attr("id"));
-            showUpdateModal();
+            showHistoryModal();
         });
 
         $(() => {

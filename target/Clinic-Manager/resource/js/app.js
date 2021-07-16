@@ -57,22 +57,19 @@ class Doctor{
     }
 }
 
+class MedicalBill{
+    constructor(id, doctor, patient, dateOnExamination, symptom) {
+        this.id = id;
+        this.doctor = doctor;
+        this.patient = patient;
+        this.dateOnExamination = dateOnExamination;
+        this.symptom = symptom;
+    }
+}
 // class MedicalBill{
-//     constructor(id, doctor, patient, dateOnExamination, symptom) {
+//     constructor(id, doctor,symptom) {
 //         this.id = id;
 //         this.doctor = doctor;
-//         this.patient = patient;
-//         this.dateOnExamination = dateOnExamination;
 //         this.symptom = symptom;
 //     }
 // }
-class MedicalBill{
-    constructor(id, doctor,symptom) {
-        this.id = id;
-        this.doctor = doctor;
-        this.symptom = symptom;
-    }
-
-
-
-}
