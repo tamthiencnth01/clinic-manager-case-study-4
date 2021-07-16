@@ -17,8 +17,10 @@ public class PatientController {
     private IPatientService patientService;
 
     @GetMapping
-    public ModelAndView showAllPatients(){
+    public ModelAndView showAllPatients(Pageable pageable){
+//        Page<Patient> patients = patientService.findAll(pageable);
         ModelAndView modelAndView = new ModelAndView("/patient/list");
+//        modelAndView.addObject("patients",patients);
         return modelAndView;
     }
 

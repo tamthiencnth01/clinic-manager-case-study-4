@@ -13,6 +13,6 @@ public class MedicalBillController {
 
     @GetMapping
     public ModelAndView showAllBill(){
-        return new ModelAndView("/medicalbill/list");
+        return new ModelAndView("/patient/list");
     }
 }

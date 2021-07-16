@@ -54,7 +54,7 @@
                     <form class="app-search">
                         <div class="app-search-box">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search...">
+                                <input id="searchTest" type="text" class="form-control" placeholder="Search...">
                                 <div class="input-group-append">
                                     <button class="btn" type="submit">
                                         <i class="fa fa-search"></i>
@@ -158,11 +158,12 @@
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <th:block th:replace="/patient/createForm :: frm-create"></th:block>
                                 </div>
-
                                 <textarea style="display:none" id="template">
                                     <tr id="tr_{0}">
                                         <td>{0}</td>
-                                        <td><a href="/patient?action=view&id={0}">{1}</a></td>
+                                        <td><a class="btn btn-outline-info showListHistory" data-id="{0}">
+                                                {1}
+                                            </a></td>
                                         <td>{2}</td>
                                         <td>{3}</td>
                                         <td>{4}</td>
@@ -194,15 +195,20 @@
                                         <th>CMND</th>
                                         <th>Ngày Sinh</th>
                                         <th>Nơi Ở</th>
-                                        <th>Cập Nhật</th>
-                                        <th>Xoá</th>
-                                        <th>Tạo Bệnh Án</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tbPatient">
 
                                     </tbody>
                                 </table>
+                            <div id="pageAble">
+<!--                                <a th:href="@{'/api/patients'(page=${patients.number - 1})}" th:if="${patients.hasPrevious()}">Previous</a>-->
+<!--                                <span th:text="${patients.number + 1}"></span>/<span th:text="${patients.totalPages}"></span>-->
+<!--                                <a th:href="@{'/api/patients'(page=${patients.number + 1})}" th:if="${patients.hasNext()}">Next</a>-->
+                            </div>
 <!--                            </div>-->
                         </div>
                     </div>
@@ -233,22 +239,30 @@
         <!-- END content-page -->
 
     </div>
-<!--    </div>-->
-
+<!--        <script src="/resource/js/patient.js"></script>-->
     <script>
+        $('#searchTest').on('input',function (){
+            let a = $('#searchTest').val();
+            searchPatients(a);
+        })
         let page ={
             urls: {
                 getAllPatients: App.BASE_URL_PATIENT,
-                getAllWards: App.BASE_URL_WARD,
-                getDoctors: App.BASE_URL_DOCTOR,
                 saveNew: App.BASE_URL_PATIENT,
                 getPatientById: App.BASE_URL_PATIENT + '/',
                 saveEdit: App.BASE_URL_PATIENT,
-                deletePatient: App.BASE_URL_PATIENT
+                deletePatient: App.BASE_URL_PATIENT,
+                searchPatientByCmnd: App.BASE_URL_PATIENT + '?search=',
+                pageAble: App.BASE_URL_PATIENT + '?page=',
+                getAllWards: App.BASE_URL_WARD,
+                getDoctors: App.BASE_URL_DOCTOR,
+                saveNewMedicalBill: App.BASE_URL_MEDICAL_BILL,
+                showListHistoryMedicalBill: App.BASE_URL_MEDICAL_BILL + '/'
             }
         }
 
         let patient = new Patient();
+        //
         //Xem Danh Sach
         let template = jQuery.validator.format($.trim($("#template").val()));
 
@@ -261,16 +275,59 @@
                 type: "GET",
                 url: page.urls.getAllPatients
             }).done((data) =>{
-                $.each(data, (i,item) =>{
+                $.each(data.content, (i,item) =>{
                     patient = item;
                     addRow();
-
                 })
+                let str = `
+                    <a href="/api/patients?page=3">Previous</a>
+                    <span text="2"></span>/<span th:text="6"></span>
+                    <a href="/api/patients?page=1">Next</a>
+                `;
+                $("#pageAble").html(str);
             }).fail(function (){
                 App.showErrorAlert("Khong Load Duoc Trang!");
             })
         }
+        function searchPatients(search){
+            $.ajax({
+                type: "GET",
+                url: page.urls.searchPatientByCmnd + search
+            }).done((patiens) => {
+                let listPatiens = patiens.content;
+                let content = "";
+                for (let i = 0; i< listPatiens.length; i++){
+                     patient = listPatiens[i];
+                    content += `<tr id="tr_${listPatiens[i].id}">
+                                        <td>${listPatiens[i].id}</td>
+                                        <td><a href="/patient?action=view&id=${listPatiens[i].id}">${listPatiens[i].name}</a></td>
+                                        <td>${listPatiens[i].phone}</td>
+                                        <td>${listPatiens[i].cmnd}</td>
+                                        <td>${listPatiens[i].dob}</td>
+                                        <td>${listPatiens[i].ward.name}</td>
+                                        <td>
+                                                <a class="btn btn-outline-warning editSearch" data-id="{0}">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger deleteSearch" data-id="{0}">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-success createPatientSearch" data-id="{0}">
+                                                    <i class="far fa-address-book"></i>
+                                                </button>
+                                            </td>
+                                    </tr>`
+                }
+                $("#tbPatient").html(content);
 
+                }).fail(function () {
+                    App.showErrorAlert("Khong Load Duoc Trang!");
+                })
+            }
         function getDoctors(){
             $.ajax({
                 type: "GET",
@@ -301,6 +358,7 @@
             });
         }
 
+
         //Them
         function createPatient(){
             patient.name = $("#name").val();
@@ -318,7 +376,7 @@
                 },
                 url: page.urls.saveNew,
                 data: JSON.stringify(patient)
-            }).done((respone) =>{
+            }).done((respone)   =>{
                 patient = respone;
                 addRow();
                 $('#frmCreateCustomer')[0].reset();
@@ -326,11 +384,10 @@
                 App.showSuccessAlert("Đã thêm mới thành công!");
                 $('#close-modal').click();
             }).fail(function (){
-                App.showErrorAlert("Lỗi Không Thêm Mới được rồi :))")
+                App.showErrorAlert("Lỗi Không Thêm Mới Được rồi :))")
             });
 
         }
-
 
         $("#btnCreatePatient").on("click", () =>{
             $("#frmCreateCustomer").submit();
@@ -401,6 +458,12 @@
             showUpdateModal();
         });
 
+        $("#orderItems").on("click", ".editSearch", function (){
+            $("#currentRow").val($(this).closest("tr").attr("id"));
+            showUpdateModal();
+        });
+
+
         $('#updateModal').on('hidden.bs.modal', function () {
             $('#frmUpdateCustomer')[0].reset();
             $('#frmUpdateCustomer').validate().resetForm();
@@ -408,6 +471,10 @@
         //Delete
         $("#orderItems").on("click", ".delete", function (){
             patient.id = $(this).data('id');
+            deleteConfirm();
+        });
+
+        $("#orderItems").on("click", ".deleteSearch", function (){
             deleteConfirm();
         });
 
@@ -429,42 +496,91 @@
                             $("#tr_" + patient.id).remove();
                         },
                         error(){
-                            App.showErrorAlert("Có Lỗi Không Xoá được bệnh nhân!")
+                            App.showErrorAlert("Có lỗi Không Xoá được bệnh nhân!")
                         }
                     })
                 }
             })
         }
-        //create Patient
+        //create MedicalBill
+        let medicalBill = new MedicalBill();
+        function createMedicalBill(){
+            var symptoms = [];
+            $.each($("input[name='symptom']:checked"), function(){
+                symptoms.push($(this).val());
+            });
+
+            medicalBill.doctor = {"id": $("#nameDoctor").val()} ;
+            medicalBill.patient = {"id": $("#idPatientCreate").val()} ;
+            medicalBill.symptom = symptoms.toString();
+            delete medicalBill.id;
+            console.log(medicalBill);
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: page.urls.saveNewMedicalBill,
+                data: JSON.stringify(medicalBill)
+            }).done((respone)   =>{
+                console.log(respone);
+                medicalBill = respone;
+                // addRow();
+                // $('#formCreatePatient')[0].reset();
+                // $('#formCreatePatient').validate().resetForm();
+                App.showSuccessAlert("Đã thêm mới thành công!");
+                $('#close-modal-createMedicalBill').click();
+            }).fail(function (){
+                App.showErrorAlert("Lỗi Không Thêm Mới được rồi :))")
+            });
+
+        }
+
         function showCreatePatient(){
             $.ajax({
                 type: "GET",
                 url: page.urls.getPatientById + patient.id
             }).done((respone) =>{
-                console.log("da hien thi 1");
                 assignCreatePatient(respone);
             }).fail(function (){
                 App.showErrorAlert("Có Lỗi ở mục hiển thị thông tin bệnh án");
             })
         }
 
+        $("#btnCreateMedicalBill").on("click",() =>{
+            $("#formCreatePatient").submit();
+        });
+
         function assignCreatePatient(p){
             $("#namePatientCreate").val(p.name);
-            console.log("da hien thi 2");
+            $("#idPatientCreate").val(p.id);
             $("#createModalPatient").modal('toggle');
         }
 
         $("#orderItems").on("click",".createPatient", function (){
            patient.id = $(this).data('id');
            $("#currentRow").val($(this).closest("tr").attr("id"));
-            console.log("da click");
            showCreatePatient();
         });
 
-        $('#createModalPatient').on('hidden.bs.modal', function () {
-            $('#frmCreatePatient')[0].reset();
-            $('#frmCreatePatient').validate().resetForm();
+        $("#orderItems").on("click",".createPatientSearch", function (){
+            $("#currentRow").val($(this).closest("tr").attr("id"));
+            showCreatePatient();
         });
+
+        $('#createModalPatient').on('hidden.bs.modal', function () {
+            $('#formCreatePatient')[0].reset();
+            $('#formCreatePatient').validate().resetForm();
+        });
+
+        //show History Medical Bill
+        $("#orderItems").on("click", ".showListHistory", function (){
+            patient.id = $(this).data('id');
+            $("#currentRow").val($(this).closest("tr").attr("id"));
+            showUpdateModal();
+        });
+
         $(() => {
             getPatients();
             getWards();

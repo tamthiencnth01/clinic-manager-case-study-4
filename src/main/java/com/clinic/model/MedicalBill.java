@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Data
@@ -24,15 +26,10 @@ public class MedicalBill {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    @Column(nullable = false)
     private String dateOnExamination;
     private String symptom;
 
-    public MedicalBill(Doctor doctor, Patient patient, String dateOnExamination, String symptom) {
-        this.doctor = doctor;
-        this.patient = patient;
-        this.dateOnExamination = dateOnExamination;
-        this.symptom = symptom;
-    }
 
     public MedicalBill(Doctor doctor, String symptom) {
         this.doctor = doctor;

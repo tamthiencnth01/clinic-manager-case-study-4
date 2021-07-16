@@ -104,6 +104,49 @@ $(() => {
             updatePatient();
         }
     });
+    $("#formCreatePatient").validate({
+        onkeyup: function(element) {$(element).valid()},
+        onclick: false,
+        rules: {
+            // upName: {
+            //     required: true,
+            //     minlength: 4,
+            //     maxlength: 50
+            // },
+            // upCMND: {
+            //     required: true,
+            //     number: true,
+            //     minlength: 9,
+            //     maxlength: 9
+            // },
+            // upPhone: {
+            //     required: true,
+            //     number: true,
+            //     minlength: 10,
+            //     maxlength: 11
+            // }
+        },
+        messages: {
+            // upName: {
+            //     required: "Bắt buộc nhập tên đầy đủ",
+            //     minlength: "Hãy nhập tối thiểu 4 ký tự",
+            //     maxlength: "Hãy nhập tối đa 50 ký tự"
+            // },
+            // upCMND: {
+            //     number: "Vui lòng nhập một số hợp lệ",
+            //     minlength: "Hãy nhập số có 09 chữ số",
+            //     maxlength: "Hãy nhập số có 09 chữ số"
+            // },
+            // upPhone: {
+            //     number: "Vui lòng nhập một số hợp lệ",
+            //     minlength: "Hãy nhập ít nhất 10 chữ số",
+            //     maxlength: "Hãy nhập tối đã 11 chữ số"
+            // }
+        },
+        submitHandler: function() {
+            createMedicalBill();
+        }
+    });
 
     $.validator.addMethod("validatePassword", function (value, element) {
         return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/i.test(value);

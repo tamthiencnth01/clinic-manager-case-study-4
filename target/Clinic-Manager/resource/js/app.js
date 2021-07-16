@@ -4,6 +4,7 @@ class App {
     static BASE_URL_WARD = "http://localhost:8080/api/wards";
     static BASE_URL_DOCTOR = "http://localhost:8080/api/doctors";
     static BASE_URL_DEPARTMENT = "http://localhost:8080/api/departments";
+    static BASE_URL_MEDICAL_BILL = "http://localhost:8080/api/bills";
 
     static showDeleteConfirmDialog() {
         return Swal.fire({
@@ -54,4 +55,24 @@ class Doctor{
         this.address = address;
         this.department = department;
     }
+}
+
+// class MedicalBill{
+//     constructor(id, doctor, patient, dateOnExamination, symptom) {
+//         this.id = id;
+//         this.doctor = doctor;
+//         this.patient = patient;
+//         this.dateOnExamination = dateOnExamination;
+//         this.symptom = symptom;
+//     }
+// }
+class MedicalBill{
+    constructor(id, doctor,symptom) {
+        this.id = id;
+        this.doctor = doctor;
+        this.symptom = symptom;
+    }
+
+
+
 }

@@ -14,15 +14,15 @@ import java.util.Optional;
 public class PatientService implements IPatientService{
     @Autowired
     private IPatientRepository patientRepository;
-//    @Override
-//    public Iterable<Patient> findAll() {
-//        return patientRepository.findAll();
-//    }
     @Override
-    public Page<Patient> findAll() {
-        Pageable pageable = PageRequest.of(0,10);
+    public Iterable<Patient> findAll() {
+        return patientRepository.findAll();
+    }
+    @Override
+    public Page<Patient> findAll(Pageable pageable) {
         return patientRepository.findAll(pageable);
     }
+
 
     @Override
     public Optional<Patient> findById(Long id) {
@@ -41,12 +41,7 @@ public class PatientService implements IPatientService{
 
 
     @Override
-    public Page<Patient> findAllPatients(Pageable pageable) {
-        return patientRepository.findAll(pageable);
-    }
-
-    @Override
-    public Optional<Patient> findByCmnd(String cmnd) {
-        return patientRepository.findByCmnd(cmnd);
+    public Page<Patient> findAllByCmndContaining(String cmnd, Pageable pageable) {
+        return patientRepository.findAllByCmndContaining(cmnd,pageable);
     }
 }

@@ -13,6 +13,5 @@ import java.util.Optional;
 
 @Repository
 public interface IPatientRepository extends JpaRepository<Patient, Long> {
-    Optional<Patient> findByCmnd(String cmnd);
-
+    Page<Patient> findAllByCmndContaining(String cmnd, Pageable pageable);
 }

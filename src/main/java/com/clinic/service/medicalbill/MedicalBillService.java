@@ -30,4 +30,9 @@ public class MedicalBillService  implements IMedicalBillService{
     public void remove(Long id) {
         medicalBillRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<MedicalBill> findAllByPatientId(Long id) {
+        return medicalBillRepository.findAllByPatientId(id);
+    }
 }

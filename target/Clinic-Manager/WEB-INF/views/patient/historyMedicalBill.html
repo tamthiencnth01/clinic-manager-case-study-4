@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form-history-medical-bill">
+    <div id="history-medical-bill" class="modal fade" data-bs-backdrop="true" data-bs-keyboard="true" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">LỊCH SỬ KHÁM BỆNH</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<!--                    <p>Vui lòng nhập chi tiết thông tin về bệnh nhân (Mọi quản lý sẽ từ CMND) </p>-->
+<!--                    <form id="formHistoryMedicalBill" >-->
+<!--                        <div class="form-group">-->
+<!--                            <input type="hidden" id="idPatientCreate">-->
+<!--                            <label for="namePatientCreate" class="form-label">Họ Và Tên bệnh nhân</label>-->
+<!--                            <input type="text" class="form-control" id="namePatientCreate" name="namePatientCreate">-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="nameDoctor" class="form-label">Tên Bác Sỹ</label>-->
+<!--                            <select id="nameDoctor" name="nameDoctor" class="form-select"></select>-->
+<!--                        </div>-->
+<!--                        <div class="form-group" >-->
+<!--                            <label for="symptom" class="form-label">Triệu Chứng</label><br>-->
+<!--                            <input type="checkbox" name="symptom" value="Ho Cảm"/> <label>Ho Cảm</label> <br/>-->
+<!--                            <input type="checkbox" name="symptom" value="Đau Bụng"/> <label>Đau Bụng</label> <br/>-->
+<!--                            <input type="checkbox" name="symptom" value="Chấn Thương"/> <label>Chấn Thương</label> <br/>-->
+<!--                            <input type="checkbox" name="symptom" value="Khám Đông Y"/> <label>Khám Đông Y</label> <br/>-->
+<!--                            <input type="checkbox" name="symptom" value="Khám Sức Khoẻ Toàn Diện"/> <label>Khám Sức Khoẻ Toàn Diện</label> <br/>-->
+<!--                            <input type="checkbox" name="symptom" value="Xương Khớp"/> <label>Xương Khớp</label>-->
+<!--                            <input type="text" class="form-control" id="symptom" name="symptom">-->
+<!--                        </div>-->
+<!--                    </form>-->
+                    <p></p>
+                    <table class="table table-hover" border="">
+                        <tr>
+                            <td>Tên Bác Sỹ Điều Trị</td>
+                            <td>Triệu Chứng Ban Đầu</td>
+                            <td>Ngày Giờ Đăng Ký Khám</td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="close-modal-createMedicalBill" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnCreateMedicalBill" class="btn btn-outline-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+

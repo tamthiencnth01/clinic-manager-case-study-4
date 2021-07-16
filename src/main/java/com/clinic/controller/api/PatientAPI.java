@@ -7,6 +7,7 @@ import com.clinic.service.ward.IWardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +34,37 @@ public class PatientAPI {
 //        }
 //        return new ResponseEntity<>(patients,HttpStatus.OK);
 //    }
+//    @GetMapping
+//    public ModelAndView listCustomers(@RequestParam("search") Optional<String> cmnd, Pageable pageable){
+//        Page<Patient> patients;
+//        if(cmnd.isPresent()){
+//            patients = patientService.findAllByCmndContaining(cmnd.get(), pageable);
+//        } else {
+//            patients = patientService.findAll(pageable);
+//        }
+//        ModelAndView modelAndView = new ModelAndView("/patient/list");
+//        modelAndView.addObject("patients", patients);
+//        return modelAndView;
+//    }
 
     @GetMapping
-    public ResponseEntity<Iterable<Patient>> getAllPatients(){
-//        Iterable<Patient> patients = patientService.findAll();
-        Page<Patient> patients = (Page<Patient>) patientService.findAll();
-        Iterable<Patient> listPatients = patients.getContent();
-        if (((List) patients).isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Page<Patient>> listCustomers(@RequestParam("search") Optional<String> cmnd,@PageableDefault(value = 10) Pageable pageable){
+        Page<Patient> patients;
+        if (cmnd.isPresent()){
+            patients = patientService.findAllByCmndContaining(cmnd.get(), pageable);
+            if (patients.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(patients,HttpStatus.OK);
+        } else {
+            patients = patientService.findAll(pageable);
+            if(patients.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            ModelAndView modelAndView = new ModelAndView("/patient/list");
+            modelAndView.addObject("patients",patients);
+            return new ResponseEntity<>(patients,HttpStatus.OK);
         }
-        return new ResponseEntity<>(listPatients,HttpStatus.OK);
     }
 
 
@@ -56,24 +78,12 @@ public class PatientAPI {
         }
     }
 
-    @GetMapping("/search/{cmnd}")
-    public ResponseEntity<Patient> getPatientByCmnd(@PathVariable String cmnd){
-        Optional<Patient> patient = patientService.findByCmnd(cmnd);
-        if (patient.isPresent()){
-            return new ResponseEntity<>(patient.get(), HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @PostMapping
     public ResponseEntity<Patient> createPatient(@RequestBody Patient patient){
         if (patient.getId() != null){
             return new ResponseEntity<>(patientService.save(patient),HttpStatus.OK);
         }
-
         Optional<Ward> ward = wardService.findById(patient.getWard().getId());
-
         if (ward.isPresent()){
             patient.setWard(ward.get());
             return new ResponseEntity<>(patientService.save(patient), HttpStatus.CREATED);
